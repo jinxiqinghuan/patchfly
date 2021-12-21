@@ -3,7 +3,7 @@ import setuptools
 
 setuptools.setup(
     name="patchfly", 
-    version="0.0.4", 
+    version="0.0.5", 
     author="ljt", 
     author_email="1196680037@qq.com",
     description="Let image patch fly.", 
