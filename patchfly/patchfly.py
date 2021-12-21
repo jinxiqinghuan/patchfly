@@ -1,7 +1,4 @@
-from patchify import patchify, unpatchify
-from matplotlib import image as mpimg
 from matplotlib import pyplot as plt
-import cv2 as cv
 from PIL import Image
 import numpy as np
 import math
@@ -51,19 +48,3 @@ def patchfly(img_array, patch_size, step):
                     img_patches[h:h+1, w:w+1, :, :, :, :] = patch
                     # plt.imsave(save_path + "d{}{}.jpg".format(h, w), patch.reshape(size, size, 3))
     return img_patches
-
-def main():
-    os.makedirs("/mnt/4t/ljt/project/patchfly/data/patch", exist_ok=True)
-    img = Image.open(r"/mnt/4t/ljt/project/patchfly/data/img.png")
-    img_copy = img.copy()
-    img_array = np.array(img_copy)
-    img_patches = patchfly(img_array, (256, 256, 3), 1)
-    for i in range(img_patches.shape[0]):
-        for j in range(img_patches.shape[1]):
-            print(i, j)
-            print(img_patches[i][j][0].shape)
-            plt.imsave("/mnt/4t/ljt/project/patchfly/data/patch/{}_{}.png".format(i, j), img_patches[i][j][0])
-    
-if __name__ == '__main__':
-    main()
-    

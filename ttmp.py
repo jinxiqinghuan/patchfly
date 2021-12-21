@@ -4,7 +4,7 @@ from matplotlib import pyplot as plt
 import cv2 as cv
 from PIL import Image
 import numpy as np
-from patchfly import patchfly
+from patchfly import patchfly, unpatchfly
 
 # ----------------------
 #  get a image from internet
@@ -19,31 +19,6 @@ from patchfly import patchfly
 # request_download(url)
 
 
-
-
-
-# ----------------------
-#  探索patchify
-# ----------------------
-
-# # 读取图片矩阵
-# img = Image.open(r"/mnt/4t/ljt/project/patchfly/data/img.png")
-# img_copy = img.copy()
-# img_array = np.array(img_copy)
-
-
-# # 使用patchify 分patch
-# img_patches = patchify(img_array, (256, 256, 3), step=256)
-# print(img_array.shape[0] / 256, img_array.shape[1] / 256)
-# print(img_patches.shape)
-# # 可以看出，patchify好像会舍弃部分边缘的信息
-# # 下面尝试是否能恢复
-
-# reocn = unpatchify(img_patches, img_array.shape)
-# # 程序卡入while循环中，出不来
-
-
-
 # ----------------------
 #  My patchfly
 # ----------------------
@@ -53,8 +28,29 @@ img_array = np.array(img_copy)
 
 
 img_patches = patchfly(img_array, (256, 256, 3), 1)
+print(img_patches.shape)
 
-for i in range(img_patches.shape[0]):
-    for j in range(img_patches.shape[1]):
-        # print(img_patches[i][j][0].shape)
-        plt.imsave("/mnt/4t/ljt/project/patchfly/data/patch/{}_{}.png".format(i, j), img_patches[i][j][0].swapaxes(0, 2))
+
+
+
+
+def main():
+    os.makedirs("/mnt/4t/ljt/project/patchfly/data/patch", exist_ok=True)
+    img = Image.open(r"/mnt/4t/ljt/project/patchfly/data/img.png")
+    img_copy = img.copy()
+    img_array = np.array(img_copy)
+    img_patches = patchfly(img_array, (555, 555, 3), 1)
+    for i in range(img_patches.shape[0]):
+        for j in range(img_patches.shape[1]):
+            print(i, j)
+            print(img_patches[i][j][0].shape)
+            plt.imsave("/mnt/4t/ljt/project/patchfly/data/patch/{}_{}.png".format(i, j), img_patches[i][j][0])
+    
+    recon = unpatchfly(img_patches=img_patches, img_size=img_array.shape, patch_size=(555, 555, 3))
+    plt.imsave("recon.jpg", recon)
+    print(recon.shape)
+       
+       
+if __name__ == '__main__':
+    main()
+    
