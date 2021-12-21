@@ -13,7 +13,7 @@ def unpatchfly(img_patches, img_size):
         patch_size ([Tuple]): []
 
     Returns:
-        [type]: [description]
+        [np.array]: [recon image]
     """
     patch_size = [img_patches.shape[-3], img_patches.shape[-2]]
     recon_img = np.zeros(img_size, dtype=np.uint8)
